@@ -1,7 +1,12 @@
 import * as actions from './types';
-import { getAllRepositories, getContributors } from '../api/github.api';
+import {
+  getAllRepositories,
+  getContributors,
+  getRepository
+} from '../api/github.api';
+import store from '../store';
 
-export const getRepositories = () => async dispatch => {
+export const loadRepositories = () => async dispatch => {
   try {
     dispatch(showLoading());
     dispatch({
@@ -11,6 +16,39 @@ export const getRepositories = () => async dispatch => {
     dispatch(hideLoading());
   } catch (error) {
     dispatch(showError(error));
+  }
+};
+
+export const loadContributors = repository => async dispatch => {
+  try {
+    dispatch(showLoading());
+    dispatch({
+      type: actions.GET_CONTRIBUTORS,
+      payload: await getContributors(repository)
+    });
+    dispatch(hideLoading());
+  } catch (error) {
+    dispatch(showError(error));
+  }
+};
+
+export const loadActiveRepository = repository => async dispatch => {
+  if (typeof repository == 'object') {
+    dispatch({
+      type: actions.SET_ACTIVE_REPOSITORY,
+      payload: repository
+    });
+  } else if (store.getState().repos.repository !== repository) {
+    try {
+      dispatch(showLoading());
+      dispatch({
+        type: actions.SET_ACTIVE_REPOSITORY,
+        payload: await getRepository(repository)
+      });
+      dispatch(hideLoading());
+    } catch (error) {
+      dispatch(showError(error));
+    }
   }
 };
 

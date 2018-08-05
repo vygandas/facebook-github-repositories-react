@@ -6,6 +6,9 @@ import { parseHeadersForPagesCount } from '../helpers/headers';
 export const getRepositoriesApiUrl = (page = 1) =>
   `${API_GITHUB_URL}/orgs/facebook/repos?${stringify({ page })}`;
 
+export const getRepositoryDetailsApiUrl = repository =>
+  `${API_GITHUB_URL}/repos/facebook/${repository}`;
+
 export const getRepoContributorsApiUrl = repo =>
   `${API_GITHUB_URL}/repos/facebook/${repo}/stats/contributors`;
 
@@ -24,6 +27,10 @@ export const getAllRepositories = async () => {
 
 export const getContributors = async repository => {
   const response = await axios.get(getRepoContributorsApiUrl(repository));
-  let contributors = await response.data;
-  return contributors;
+  return await response.data;
+};
+
+export const getRepository = async repository => {
+  const response = await axios.get(getRepositoryDetailsApiUrl(repository));
+  return await response.data;
 };

@@ -3,7 +3,9 @@ import * as actions from '../actions/types';
 export const initialState = {
   isLoading: true,
   repositories: null,
-  errorMessage: null
+  errorMessage: null,
+  contributors: [],
+  repository: null
 };
 
 export const repos = (state = initialState, action) => {
@@ -22,6 +24,10 @@ export const repos = (state = initialState, action) => {
           errorMessage: null
         }
       };
+    case actions.SET_ACTIVE_REPOSITORY:
+      return { ...state, ...{ repository: action.payload } };
+    case actions.GET_CONTRIBUTORS:
+      return { ...state, ...{ contributors: action.payload } };
     default:
       return state;
   }
