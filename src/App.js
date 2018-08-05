@@ -22,7 +22,7 @@ class App extends Component {
                   <div className="col-3">
                     <Sidebar />
                   </div>
-                  <div className="col-3">
+                  <div className="col-9">
                     <Switch>
                       <Route exact path="/" component={RepositoriesListPage} />
                       <Route
