@@ -15,7 +15,7 @@ export const loadRepositories = () => async dispatch => {
     });
     dispatch(hideLoading());
   } catch (error) {
-    dispatch(showError(error));
+    dispatch(showError('Could not retreive repositories list.'));
   }
 };
 
@@ -28,7 +28,7 @@ export const loadContributors = repository => async dispatch => {
     });
     dispatch(hideLoading());
   } catch (error) {
-    dispatch(showError(error));
+    dispatch(showError('Could not retreive contributors list.'));
   }
 };
 
@@ -47,7 +47,9 @@ export const loadActiveRepository = repository => async dispatch => {
       });
       dispatch(hideLoading());
     } catch (error) {
-      dispatch(showError(error));
+      dispatch(
+        showError('Could not retreive active repository. Please try again.')
+      );
     }
   }
 };
@@ -56,7 +58,7 @@ export const showLoading = () => ({ type: actions.SHOW_LOADING });
 
 export const hideLoading = () => ({ type: actions.HIDE_LOADING });
 
-export const showError = error => ({
+export const showError = message => ({
   type: actions.SHOW_ERROR,
-  payload: error // error.response.data.message
+  payload: message
 });

@@ -49,6 +49,7 @@ class ContributorsListPage extends Component {
         <h4>Contributors</h4>
 
         {this.props.contributors &&
+          this.props.contributors instanceof Array &&
           this.props.contributors.map(contributor => (
             <ContributorListItem
               author={contributor.author}
