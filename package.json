@@ -33,7 +33,5 @@
       "git add"
     ]
   },
-  "devDependencies": {
-    "jest-cli": "^23.4.2"
-  }
+  "devDependencies": {}
 }

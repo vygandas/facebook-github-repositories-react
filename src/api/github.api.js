@@ -12,6 +12,10 @@ export const getRepositoryDetailsApiUrl = repository =>
 export const getRepoContributorsApiUrl = repo =>
   `${API_GITHUB_URL}/repos/facebook/${repo}/stats/contributors`;
 
+/**
+ * Collect all repositories of Facebook organisation.
+ * If it has more than one page loop and collect all pages.
+ */
 export const getAllRepositories = async () => {
   const response = await axios.get(getRepositoriesApiUrl());
   const pagesCount = parseHeadersForPagesCount(await response.headers);
@@ -25,11 +29,19 @@ export const getAllRepositories = async () => {
   return repositories.sort((a, b) => b.watchers_count - a.watchers_count);
 };
 
+/**
+ * Get contributors list of repository.
+ * @param {string} repository name of repository
+ */
 export const getContributors = async repository => {
   const response = await axios.get(getRepoContributorsApiUrl(repository));
   return await response.data;
 };
 
+/**
+ * Get repository info object.
+ * @param {*} repository name of repository
+ */
 export const getRepository = async repository => {
   const response = await axios.get(getRepositoryDetailsApiUrl(repository));
   return await response.data;

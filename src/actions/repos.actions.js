@@ -6,6 +6,9 @@ import {
 } from '../api/github.api';
 import store from '../store';
 
+/**
+ * Get repositories from api and save into a store.
+ */
 export const loadRepositories = () => async dispatch => {
   try {
     dispatch(showLoading());
@@ -19,6 +22,10 @@ export const loadRepositories = () => async dispatch => {
   }
 };
 
+/**
+ * Get a list of contributors for particular repository.
+ * @param {*} repository repository object
+ */
 export const loadContributors = repository => async dispatch => {
   try {
     dispatch(showLoading());
@@ -32,6 +39,12 @@ export const loadContributors = repository => async dispatch => {
   }
 };
 
+/**
+ * Get active repository object by its name or object.
+ * If name is given - load data from api.
+ * If object given - only set it to state and don't call api.
+ * @param {{*}|string} repository repository object or name
+ */
 export const loadActiveRepository = repository => async dispatch => {
   if (typeof repository === 'object') {
     dispatch({
