@@ -1,4 +1,4 @@
-import { SHOW_ERROR } from '../actions/types';
+import * as actions from '../actions/types';
 
 export const initialState = {
   isLoading: true,
@@ -8,8 +8,20 @@ export const initialState = {
 
 export const repos = (state = initialState, action) => {
   switch (action.type) {
-    case SHOW_ERROR:
+    case actions.SHOW_ERROR:
       return { ...state, ...{ errorMessage: action.payload } };
+    case actions.SHOW_LOADING:
+      return { ...state, isLoading: true };
+    case actions.HIDE_LOADING:
+      return { ...state, isLoading: false };
+    case actions.GET_REPOSITORIES:
+      return {
+        ...state,
+        ...{
+          ...action.payload,
+          errorMessage: null
+        }
+      };
     default:
       return state;
   }

@@ -6,7 +6,7 @@ import { HashRouter, Switch, Route } from 'react-router-dom';
 import { AppStyled } from './App.styled';
 
 import Preloader from './hoc/Preloader';
-import { Sidebar } from './partial/Sidebar';
+import Sidebar from './partial/Sidebar';
 import RepositoriesListPage from './pages/RepositoriesListPage';
 import ContributorsListPage from './pages/ContributorsListPage';
 

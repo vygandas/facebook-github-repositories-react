@@ -13,7 +13,6 @@ import {
  * */
 class Preloader extends Component {
   render() {
-    console.log('this.props.loading', this.props.loading);
     return (
       <PreloaderComponent isLoading={this.props.loading}>
         {this.props.loading && (
