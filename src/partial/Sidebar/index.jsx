@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
+import { numberWithCommas } from '../../formatters/numbers';
 import { getRepositories } from '../../actions/repos.actions';
-
-import { SidebarStyled } from './Sidebar.styled';
+import { Link } from 'react-router-dom';
+import { SidebarStyled, LinksList, LinksListItem } from './Sidebar.styled';
 
 class Sidebar extends Component {
   componentDidMount() {
@@ -13,10 +13,17 @@ class Sidebar extends Component {
     return (
       <SidebarStyled>
         <h2>Facebook repositories</h2>
-        {this.props.repositories &&
-          this.props.repositories.map(repo => (
-            <div key={repo.id}>{repo.name}</div>
-          ))}
+        <LinksList>
+          {this.props.repositories &&
+            this.props.repositories.map(repo => (
+              <LinksListItem key={repo.id}>
+                <Link to={{ pathname: repo.name }}>{repo.name}</Link>
+                <small className="ml-2">
+                  ({numberWithCommas(repo.watchers_count)})
+                </small>
+              </LinksListItem>
+            ))}
+        </LinksList>
       </SidebarStyled>
     );
   }

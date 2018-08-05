@@ -17,12 +17,12 @@ class App extends Component {
         <Provider store={store}>
           <Preloader>
             <div className="container">
-              <div className="row">
-                <div className="col-3">
-                  <Sidebar />
-                </div>
-                <div className="col-3">
-                  <HashRouter>
+              <HashRouter>
+                <div className="row">
+                  <div className="col-3">
+                    <Sidebar />
+                  </div>
+                  <div className="col-3">
                     <Switch>
                       <Route exact path="/" component={RepositoriesListPage} />
                       <Route
@@ -30,9 +30,9 @@ class App extends Component {
                         component={ContributorsListPage}
                       />
                     </Switch>
-                  </HashRouter>
+                  </div>
                 </div>
-              </div>
+              </HashRouter>
             </div>
           </Preloader>
         </Provider>

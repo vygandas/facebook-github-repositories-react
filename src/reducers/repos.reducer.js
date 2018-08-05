@@ -18,7 +18,7 @@ export const repos = (state = initialState, action) => {
       return {
         ...state,
         ...{
-          ...action.payload,
+          repositories: action.payload,
           errorMessage: null
         }
       };
