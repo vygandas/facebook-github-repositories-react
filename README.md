@@ -1,6 +1,12 @@
 
 # Facebook GitHub repositiories
 
+LIVE https://sad-yonath-cf8f43.netlify.com/
+
+**The main idea of the project is to list projects owned by Facebook on Github.**
+
+The app has a sidebar navigation with Facebook projects sorted by watchers. Clicking on one of them fetches that project data and populate the main view with its details. Those details includes a list of project contributors.
+
 ## Available Scripts
 
 In the project directory, you can run:
