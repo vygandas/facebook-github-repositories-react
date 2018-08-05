@@ -9,7 +9,7 @@ export const parseHeadersForPagesCount = headers => {
       const linkParts = String(headers['link'])
         .replace(' ', '')
         .split(',');
-      const lastLink = linkParts.filter(p => p.search('rel="last"'))[0];
+      const lastLink = linkParts.filter(p => p.includes('last'))[0];
       const link = lastLink.substring(
         lastLink.indexOf('<') + 1,
         lastLink.indexOf('>')

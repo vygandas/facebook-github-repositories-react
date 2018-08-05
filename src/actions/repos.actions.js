@@ -6,12 +6,21 @@ import { parseHeadersForPagesCount } from '../helpers/headers';
 export const getRepositories = () => async dispatch => {
   try {
     dispatch(showLoading());
-    const response = await axios.get(getRepositoriesApiUrl());
+    let response = await axios.get(getRepositoriesApiUrl());
+    let repositories = [];
+    const pagesCount = parseHeadersForPagesCount(await response.headers);
+    repositories = await response.data;
+    console.log('pagesCount', pagesCount);
+    if (pagesCount > 1) {
+      for (let i = 2; i <= pagesCount; i++) {
+        response = await axios.get(getRepositoriesApiUrl(i));
+        repositories = repositories.concat(await response.data);
+      }
+    }
     dispatch({
       type: actions.GET_REPOSITORIES,
       payload: {
-        repositories: await response.data,
-        pages: parseHeadersForPagesCount(await response.headers)
+        repositories
       }
     });
     dispatch(hideLoading());
