@@ -33,7 +33,7 @@ export const loadContributors = repository => async dispatch => {
 };
 
 export const loadActiveRepository = repository => async dispatch => {
-  if (typeof repository == 'object') {
+  if (typeof repository === 'object') {
     dispatch({
       type: actions.SET_ACTIVE_REPOSITORY,
       payload: repository

@@ -1,8 +1,20 @@
 import React from 'react';
-import { ContributorsListItem } from './ContributorListItem.styles';
+import {
+  ContributorsListItem,
+  ContributorImage,
+  ContributorLink
+} from './ContributorListItem.styles';
 
 export const ContributorListItem = ({ author }) => (
   <ContributorsListItem>
-    <h2>{author.login}</h2>
+    <ContributorImage
+      src={author.avatar_url}
+      alt={author.login}
+      width={30}
+      height={30}
+    />
+    <ContributorLink href={author.html_url} target="_blank">
+      <h2 className="h5">{author.login}</h2>
+    </ContributorLink>
   </ContributorsListItem>
 );

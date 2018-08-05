@@ -5,45 +5,49 @@ import {
   loadActiveRepository
 } from '../../actions/repos.actions';
 import { ContributorListItem } from '../../components/ContributorListItem';
+import { extractRepositoryNameFromProps } from '../../helpers/repositoryName';
 
 class ContributorsListPage extends Component {
   currentRepository = null;
-
-  getRepositoryName = () => {
-    const p = this.props;
-    return typeof p !== typeof undefined &&
-      typeof p.match !== typeof undefined &&
-      typeof p.match.params !== typeof undefined &&
-      typeof p.match.params.repository !== typeof undefined
-      ? this.props.match.params.repository
-      : null;
-  };
   componentWillMount() {
-    this.props.loadActiveRepository(this.getRepositoryName());
+    this.props.loadActiveRepository(extractRepositoryNameFromProps(this.props));
   }
   componentDidMount() {
-    this.props.loadContributors(this.getRepositoryName());
-    this.currentRepository = this.getRepositoryName();
+    this.props.loadContributors(extractRepositoryNameFromProps(this.props));
+    this.currentRepository = extractRepositoryNameFromProps(this.props);
   }
   componentDidUpdate() {
-    const check =
-      this.props.user !== null &&
-      this.props.repository &&
-      this.props.repository.name !== this.getRepositoryName() &&
-      this.currentRepository !== this.getRepositoryName();
-    if (check) {
-      this.props.loadActiveRepository(this.getRepositoryName());
-      this.props.loadContributors(this.getRepositoryName());
-      this.currentRepository = this.getRepositoryName();
+    if (this.isActiveRepoNotSameAsInUrl()) {
+      this.props.loadActiveRepository(
+        extractRepositoryNameFromProps(this.props)
+      );
+      this.props.loadContributors(extractRepositoryNameFromProps(this.props));
+      this.currentRepository = extractRepositoryNameFromProps(this.props);
     }
   }
+  isActiveRepoNotSameAsInUrl = () =>
+    this.props.repository &&
+    this.props.repository.name !== extractRepositoryNameFromProps(this.props) &&
+    this.currentRepository !== extractRepositoryNameFromProps(this.props);
   render() {
-    return (
+    return this.props.repository ? (
       <div>
-        <h1>
+        <h1 className="mb-3">
           Repository{' '}
           <strong>{this.props.repository && this.props.repository.name}</strong>
         </h1>
+
+        <article className="mb-3">{this.props.repository.description}</article>
+
+        <div className="mb-3">
+          URL:{' '}
+          <a href={this.props.repository.url} target="_blank">
+            {this.props.repository.url}
+          </a>
+        </div>
+
+        <h4>Contributors</h4>
+
         {this.props.contributors &&
           this.props.contributors.map(contributor => (
             <ContributorListItem
@@ -52,7 +56,7 @@ class ContributorsListPage extends Component {
             />
           ))}
       </div>
-    );
+    ) : null;
   }
 }
 
