@@ -20,6 +20,8 @@ export const getAllRepositories = async () => {
   const response = await axios.get(getRepositoriesApiUrl());
   const pagesCount = parseHeadersForPagesCount(await response.headers);
   let repositories = await response.data;
+  // If we find in headers that there're more than 1 page we have to call
+  // API more times to get data from all existing pages.
   if (pagesCount > 1) {
     for (let i = 2; i <= pagesCount; i++) {
       const r = await axios.get(getRepositoriesApiUrl(i));
@@ -33,9 +35,20 @@ export const getAllRepositories = async () => {
  * Get contributors list of repository.
  * @param {string} repository name of repository
  */
-export const getContributors = async repository => {
+export const getContributors = async (
+  repository,
+  count = 0,
+  maxRetryCount = 5
+) => {
   const response = await axios.get(getRepoContributorsApiUrl(repository));
-  return await response.data;
+  let data = await response.data;
+  // Sometimes API returns not "200 OK" but "202 Accepted" status code.
+  // That means that we have no data in a response and no error.
+  // Retrying helps.
+  if (count < maxRetryCount && !(data instanceof Array)) {
+    return getContributors(repository, ++count);
+  }
+  return data;
 };
 
 /**
